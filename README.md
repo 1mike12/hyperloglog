@@ -5,6 +5,9 @@ ease of reading code over absolute performance. If you need a real HLL implement
 native code written in C or C++.
 
 ## Usage
+You must choose your own hashing function and pass it to the HLL constructor. The hashing function must return a 
+Buffer. Good choices are any fast, non cryptographically secure functions that will result in an even distribution, 
+like xxhash or murmur
 
 ```shell
 $ npm install hyperloglog
