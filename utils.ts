@@ -21,7 +21,7 @@ export function getDistanceToNext1(buffer: Buffer, startingIndex: number): numbe
       }
       index++
    }
-   return index - startingIndex
+   return distance
 }
 
 /**
@@ -52,8 +52,11 @@ export function getNSignificantBits(buffer: Buffer, end: number): number {
  * @param values
  */
 export function harmonicMean(values: number[]): number {
-   const sumOfInverses = values.reduce((sum, value) => sum + 1 / value, 0)
-   return values.length / sumOfInverses
+   let sum = 0
+   for (const value of values) {
+      sum += 1 / value
+   }
+   return values.length / sum
 }
 
 /**

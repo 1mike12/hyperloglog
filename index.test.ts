@@ -2,8 +2,8 @@ import HyperLogLog from "./index"
 import { XXHash64 } from "xxhash-addon"
 import { equal, ok, notEqual } from "assert"
 
-function closelyEqual(a: number, b: number, percentError: number) {
-   ok(Math.abs(a - b) < (a * percentError))
+function closelyEqual(a: number, b: number, error: number) {
+   ok(Math.abs(a - b) < (a * error))
 }
 
 describe("HyperLogLog", () => {
@@ -122,5 +122,15 @@ describe("HyperLogLog", () => {
       const difference = Math.abs(estimate3 - (estimate1 + estimate2))
       const differencePercentage = difference / (estimate1 + estimate2)
       ok(differencePercentage < 0.1)
+   })
+
+   it("should generate realistic estimates when instantiated with realistic parameters", () => {
+      const h = new HyperLogLog(11, hashFunction)
+      for (let i = 0; i < 1e7; i++) {
+         h.insert(`${i}`)
+      }
+      const estimate = h.getEstimate()
+      const error = h.getError()
+      closelyEqual(estimate, 1e6, 2 * error)
    })
 })
