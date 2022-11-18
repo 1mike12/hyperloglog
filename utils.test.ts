@@ -1,16 +1,7 @@
 import { equal, deepEqual } from "assert"
-import { getDistanceToNext1, getNSignificantBits, getSmallestXPercent, harmonicMean, readBit } from "./utils"
+import { getDistanceToNext1, getNSignificantBits, getSmallestXPercent, harmonicMean } from "./utils"
 
 describe("utils", () => {
-   it("should readBit", () => {
-      equal(readBit(new Buffer([0b00000000]), 0, 0), 0)
-      equal(readBit(new Buffer([0b00000001]), 0, 0), 1)
-      equal(readBit(new Buffer([0b00000010]), 0, 2), 0)
-
-      const twoBytes = new Buffer([0b00000000, 0b00000001])
-      equal(readBit(twoBytes, 0, 0), 0)
-      equal(readBit(twoBytes, 1, 0), 1)
-   })
 
    it("should get distance to next 1 of single byte", () => {
       const byte = Buffer.from([0b00000001])

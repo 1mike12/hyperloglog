@@ -1,23 +1,4 @@
 /**
- * return the bit value given the buffer index and bit index within that array
- *
- * @param buffer The Buffer/UInt8Array to read the bit from.
- * @param index The zero-based cardinal index of the byte to read the bit from.
- * @param bit The zero-based cardinal index of the bit to read from the byte.
- * @return The bit value.
- */
-export function readBit(buffer: Buffer, index: number, bit: number): number {
-   /*
-   The right shift operator (>>) returns the signed number represented by the result of performing a sign-extending shift of the binary representation of the first operand (evaluated as a two's complement bit string) to the right by the number of bits, modulo 32, specified in the second operand. Excess bits shifted off to the right are discarded, and copies of the leftmost bit are shifted in from the left.
-    */
-
-   /*
-   in order to select the only bit we care about, we & the byte with `1` which can be thought of as a bitmask to select the elast significant bit
-    */
-   return (buffer[index] >> bit) & 1
-}
-
-/**
  * given an bit index and a buffer, this will give the number of bits
  * we need to travel right to reach the next 1
  *
@@ -81,7 +62,8 @@ export function harmonicMean(values: number[]): number {
  * @param percent range [0, 1]
  */
 export function getSmallestXPercent(values: number[], percent: number): number[] {
-   const sorted = values.sort((a, b) => a - b)
+   const copy = [...values]
+   copy.sort((a, b) => a - b)
    const count = Math.floor(values.length * percent)
-   return sorted.slice(0, count)
+   return copy.slice(0, count)
 }

@@ -11,7 +11,9 @@ export default class HyperLogLog {
    private hashBitLength: number
 
    /**
-    * @param bucketBits also referred to as the register size in the paper. should be at least 4 or else we cant generate the correction factor properly. More importantly, we are trying to reduce variance by increasing the number of buckets and too few bits allocated will result in low buckets, which will result in a high variance.
+    * @param bucketBits also referred to as the register size in the paper. should be at least 4 or else we cant
+    * generate the correction factor properly. More importantly, we are trying to reduce variance by increasing the
+    * number of buckets and too few bits allocated will result in low buckets, which will result in a high variance.
     *
     * @param hashFunction should be fast, non-cryptographically secure hash function
     */
@@ -49,8 +51,8 @@ export default class HyperLogLog {
       return Math.max(...this.buckets)
    }
 
-   getErrorPercent() {
-      return (1.04 / Math.sqrt(Math.pow(2, this.bucketBits))) * 100
+   getError() {
+      return (1.04 / Math.sqrt(Math.pow(2, this.bucketBits)))
    }
 
    getZeroBucketCount() {
@@ -69,9 +71,11 @@ export default class HyperLogLog {
    }
 
    /**
-    * There are two main correcting factors, depending firstly on whether there are any buckets with 0 counts registered inside. If there are, then the estimate is corrected using the linear counting method.
+    * There are two main correcting factors, depending firstly on whether there are any buckets with 0 counts
+    * registered inside. If there are, then the estimate is corrected using the linear counting method.
     *
-    * If there are no buckets with 0 counts, then we move onto the standard correcting factor. These are dependent on how many buckets we have (which is itself dependent on how many bits we decided to leave for the bucket partitioning).
+    * If there are no buckets with 0 counts, then we move onto the standard correcting factor. These are dependent
+    * on how many buckets we have (which is itself dependent on how many bits we decided to leave for the bucket partitioning).
     */
    getCorrectionFactor() {
       const zeroCount = this.getZeroBucketCount()
