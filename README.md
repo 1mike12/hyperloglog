@@ -17,10 +17,12 @@ import HyperLogLog from 'hyperloglog';
 import { XXHash32 } from "xxhash-addon"
 
 const BITS_FOR_BUCKETS = 4
-const hll = new HyperLogLog(BITS_FOR_BUCKETS, (value) => {
+const hashFunction = (value) => {
    const buffer = Buffer.from(value)
    return XXHash32.hash(buffer)
-})
+}
+
+const hll = new HyperLogLog(BITS_FOR_BUCKETS, hashFunction)
 
 for (let i = 0; i < 1000000; i++) {
    hll.add(`${i}`)

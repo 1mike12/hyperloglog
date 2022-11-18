@@ -88,4 +88,13 @@ export default class HyperLogLog {
             return 0.7213 / (1 + 1.079 / Math.pow(2, this.bucketBits))
       }
    }
+
+   merge(other: HyperLogLog) {
+      if (this.bucketBits !== other.bucketBits) {
+         throw new Error("Cannot merge two instances with different bucket sizes")
+      }
+      for (let i = 0; i < this.buckets.length; i++) {
+         this.buckets[i] = Math.max(this.buckets[i], other.buckets[i])
+      }
+   }
 }

@@ -47,4 +47,18 @@ describe("HyperLogLog", () => {
       const estimate = h.getEstimate()
       ok(estimate > 90000 && estimate < 110000)
    })
+
+   it("should merge two instancs", () => {
+      const hashFunction = (value: string) => {
+         const buffer = Buffer.from(value)
+         return XXHash64.hash(buffer)
+      }
+      const h1 = new HyperLogLog(4, hashFunction)
+      h1.buckets = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+      const h2 = new HyperLogLog(4, hashFunction)
+      h2.buckets = [42, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 99]
+      h1.merge(h2)
+      equal(h1.buckets[0], 42)
+      equal(h1.buckets[15], 99)
+   })
 })
